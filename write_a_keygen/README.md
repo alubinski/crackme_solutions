@@ -16,6 +16,7 @@ But values used in ABD operations seem weird, if we want to check if char is num
 later we do AND with 0x400 but shouldn't it be 0x800 to check if is not alphanumeric?
 Pseudocode seems to be correct based on assembler instructions shown by IDA and other solutions.
 
+https://github.com/alubinski/crackme_solutions/blob/main/write_a_keygen/img1.png
 
 In third check we test if serial is in blacklist[2] = {"ABC123", "DEF456"}
 
