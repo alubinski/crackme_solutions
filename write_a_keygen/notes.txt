@@ -1,0 +1,14 @@
+1. file $1 - check if stripped (is not)
+2. nm $1 - check for symbols - printf, puts, is_valid_checksum, strlen, etc. found
+3. strings $1 - check printable strings of program
+	Failure : 	Serial number too long.
+			Invalid serial format.
+			Invalid checksum.
+			Serial number blacklisted.
+			Serial number is valid.
+	Blacklist: 	ABC123
+			DEF456
+4. Louded into ADA
+			
+
+
