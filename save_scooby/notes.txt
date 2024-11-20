@@ -1,0 +1,14 @@
+Save Scooby
+Goals: Write a keygen
+Constrains: No decompiling and no patching
+
+1. Use file $1 - learned architecture and program is not stripped, so we can look at assembles (symbols)
+2. Use nm $1 - we learn about outside symbols - getcwd, strlen
+3. Use strings $1 - learned about displayable strings in std::out, found prompts and success/failed message
+	Success: You won a medal Scooby !!
+	Failed: Scooby Doobie Doo!! Not too easy
+4. Try easiest solution - write cwd - expected fail
+5. Open File in ADA and translate to psuodo C - code and explanation in file pseudo.c
+6. write script to encrypt cwd and create keygen.
+
+
