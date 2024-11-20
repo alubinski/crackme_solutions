@@ -4,9 +4,11 @@ First I checked main file with commands file, nm, strings. I learned information
 
 Serial should be up to 20 alphanumerical characters.
 
+In 2nd check we test if format of serial is correct. if any symbol is not alphanumeric we return false. Also format is correct if either consists only of numbers or consists of 1 number and the lest are letters.
+
 In first check we test lenghth of serial.
 
-In second check we calculate and test checksum. I am confused by bit structure returned by ___ctype_b_loc
+In third check we calculate and test checksum. I am confused by bit structure returned by ___ctype_b_loc
 According to other solutions:
     signs 0-9 are substracted by 0x30 so in checksum they have value 0-9
     signs A-Z are substracted by 0x37 so they are translated to value 10-n
@@ -18,5 +20,5 @@ Pseudocode seems to be correct based on assembler instructions shown by IDA and 
 
 https://github.com/alubinski/crackme_solutions/blob/main/write_a_keygen/img1.png
 
-In third check we test if serial is in blacklist[2] = {"ABC123", "DEF456"}
+In 4th check we test if serial is in blacklist[2] = {"ABC123", "DEF456"}
 
