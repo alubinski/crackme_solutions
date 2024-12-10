@@ -18,13 +18,6 @@ while (i < cwd_len)
 			
 		else
 			cwd[i] -= 0x1E
-			/*
-			eax = cwd[i]
-			eax -= 0x1E
-			edx = eax
-			eax = cwd[i]
-			cwd[i] = dl
-			*/
 		i++
 }
 

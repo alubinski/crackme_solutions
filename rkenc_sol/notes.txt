@@ -1,0 +1,24 @@
+1. file $1 - not stripped, look for symbols
+2. strings $1:
+
+RKENC: Crackme
+Enter password (attempts: 3):
+Attempt 
+Too many attempts. Exiting...
+Invalid input or too long. Try again.
+Correct.
+Incorrect password.
+
+Znaleziony call:
+call    _Z8mutexstrIiEbSt10shared_ptrIN5RKENC8AESCRYPTEERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE ;
+
+mial ifa, porownujacego lokacje w pamiueci z 10F3D9h, ktore okazalo sie potrzebnym haslem
+
+
+loc_A92E:
+mov     eax, [rbp+var_80]
+mov     [rbp+var_50], eax
+cmp     [rbp+var_50], 10F3D9h
+jnz     loc_AA2E
+
+10F3D9h = 1111001, ktore jest poszukiwanym haslem
