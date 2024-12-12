@@ -1,0 +1,52 @@
+/lib64/ld-linux-x86-64.so.2
+fgets
+stdin
+puts
+__stack_chk_fail
+strlen
+__libc_start_main
+__cxa_finalize
+libc.so.6
+GLIBC_2.4
+GLIBC_2.2.5
+GLIBC_2.34
+_ITM_deregisterTMCloneTable
+__gmon_start__
+_ITM_registerTMCloneTable
+PTE1
+u3UH
+Welcome, please enter the password to continue.
+Sorry, I have to deny you access.
+Welcome, you have been granted access.
+;*3$"
+):K\m~
+X4Sx
+all those who
+nder are losGCC: (GNU) 14.1.1 20240507
+GCC: (GNU) 14.1.1 20240522
+.shstrtab
+.interp
+.note.gnu.property
+.note.gnu.build-id
+.note.ABI-tag
+.gnu.hash
+.dynsym
+.dynstr
+.gnu.version
+.gnu.version_r
+.rela.dyn
+.rela.plt
+.init
+.text
+.fini
+.rodata
+.eh_frame_hdr
+.eh_frame
+.init_array
+.fini_array
+.dynamic
+.got
+.got.plt
+.data
+.bss
+.comment

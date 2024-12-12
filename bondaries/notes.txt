@@ -1,0 +1,107 @@
+1. File analysis
+
+file $1 - file is stripped, x86-64, dynamically linked
+
+strings $1 - found strings:
+    Welcome msg: Welcome, please enter the password to continue.
+    Failure msg: Sorry, I have to deny you access.
+    Success msg: Welcome, you have been granted access.
+
+    Fixed string portions of password:
+        all those who
+        nder are los
+
+
+Seems like 2 found strings are citation of Tolkien's work:
+    >>Not all those who wander are lost<<
+Tried it as password, but does not work
+
+
+
+nm -D $1 - program request password from stdin - uses fgets (retain \n, so \n is part of password) & strlen (check password length),
+            uses puts, functions for transactional memory clone tables & stack protection symbols
+
+main()
+    - has stack overflow detection
+    - uses stdin & fgets for password request (keeps /n); max size  is 400h (1024)
+    - has for loop (int i = 0l i <= 31; i++) create 32-byte array with strlen(password) & ff (sign extend used) in each byte (password_len_arr)
+    - program fails if `strlen(password) & 0xfffffff0 == 32`
+        so valid length is 32 through 47
+    - call function which changes password in place for later validation. Arguments:
+        - password 
+        - strlen(password) & 0xfffffff0 (32)
+        - new_array
+        - new_array.length()
+
+    - second loop goes through first 32 bytes of password and compares it to fixed string; compares them to fixed string; if it does not validate
+        password fails
+            fixed string: `____all those wh____nder are los` - we are missing 4 signs at the beggining and in the middle
+
+
+password_proceding_function()
+    - complicated if statment, but the size of array is always 32, so its always true
+    - loops over password 16 bytes at the time and calls another function
+
+int offset = 0;
+for (int i = password.size(); i > 0; i -= 16) {
+    inner_function(password + offset, password_len_arr, 0x20);
+    offset += 16;
+}
+    
+inner_function calls :
+    inner_function(password +  0, password_len_arr, 32);
+    inner_function(password + 16, password_len_arr, 32);   
+
+inner_function():
+    - seems to support different behaviour when the password_len_arr is of differing sizes, but size is always passed as 
+    32, so we only need to examine one part of function
+    - function relies on having password_len_arr and password on stack (contiguous & in this order)
+    - function uses offset that goes beyond password_len_arr and affects password
+    - since password is affected second call of inner_function is affected
+
+    - operations:
+        1. 8-byte endian swap on password_len_arr, since all bytes are the same it does nothing
+        2. 8-byte endian swap on password_len_arr + 40h == password[32]
+            this will swap characters [32..39] (zero-based) of password
+            since use of fgets last characters are \n\0
+            this causes the effective password length to be at least 38 characters (40 min \n\0) 
+            for smaller password program will try to read from unintialized password buffer, causing undefined behaviour
+        3. 8-byte endian swap on password_len_arr + 80h == password[96] and on assword_len_arr + C0h == password[160]
+            working on unintialized memory, seemingly does not cause trouble
+        4. 4-byte XOR passwor[0..3] XOR password_len_arr[0...3]
+        5. 4-byte XOR password[16..19] XOR password[32..35]
+            Since in 2nd operation we swaped characters [32..39] [32..35] is really [36..39]
+        6. 4-byte XOR password[32..35] XOR password[96..99]
+        7. 4-byte XOR password[48..51] XOR password[160..163]
+        8. 4-byte endian swap at password[0]
+        9. 4-byte endian swap at password[16]
+        10. 4-byte endian swap at password[32]
+        11. 4-byte endian swap at password[48]
+        12. loop i = 0 i < 32 i++
+            - we read passwprd[0], password[16], password[32], password[48] as 4-byte integer [value]
+            - we perfom operation value = (value >> 12) | ((value & FFh) XOR 15h)
+            - update password - only 4 bytes are changed, remaining 12 are the same
+
+
+Notes:
+    - We partially know password: `____all those wh____nder are los`
+    - program only examines first 32 bytes of password, but password length determines final password
+    - finding values `\xef\0\0\0' involves going through permutations of password[0..3]
+        - manipulated on step 4, 8, 12
+        - because of right shift in step 12, only single byte will contain data byte, followed by 3 NULL bytes 
+    - finding values \x6f\0\0\0 involves going through permutations of password[16..19]
+        - because of right shift in step 12, only single byte will contain data byte, followed by 3 NULL bytes 
+        - first loop:
+            - manipulated on step 5, 9, 12
+        - second loop - since we are calling function with password + 16, password[16..19] is password[0..3] in second call
+            - manipulated on step 4, 8, 12
+    - since in step 5 we are permutating value password[16..19] with password[32..35] (which is [36..39] because of swapping)
+        password need to be at least 38 (40 with \n\0) user inputted characters, otherwise program will modify password[16..19] with 
+        unintialized data
+
+
+
+
+
+
+

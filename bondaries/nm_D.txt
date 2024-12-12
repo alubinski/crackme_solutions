@@ -1,0 +1,10 @@
+                 w __cxa_finalize@GLIBC_2.2.5
+                 U fgets@GLIBC_2.2.5
+                 w __gmon_start__
+                 w _ITM_deregisterTMCloneTable
+                 w _ITM_registerTMCloneTable
+                 U __libc_start_main@GLIBC_2.34
+                 U puts@GLIBC_2.2.5
+                 U __stack_chk_fail@GLIBC_2.4
+0000000000004080 B stdin@GLIBC_2.2.5
+                 U strlen@GLIBC_2.2.5
