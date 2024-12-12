@@ -12,11 +12,6 @@ strings $1 - found strings:
         nder are los
 
 
-Seems like 2 found strings are citation of Tolkien's work:
-    >>Not all those who wander are lost<<
-Tried it as password, but does not work
-
-
 
 nm -D $1 - program request password from stdin - uses fgets (retain \n, so \n is part of password) & strlen (check password length),
             uses puts, functions for transactional memory clone tables & stack protection symbols
@@ -35,7 +30,7 @@ main()
 
     - second loop goes through first 32 bytes of password and compares it to fixed string; compares them to fixed string; if it does not validate
         password fails
-            fixed string: `____all those wh____nder are los` - we are missing 4 signs at the beggining and in the middle
+            fixed string: `\xef\0\0\0all those wh\x6f\0\0\0nder are los` - we are missing signs at the beggining and in the middle
 
 
 password_proceding_function()
