@@ -83,11 +83,9 @@ Notes:
     - program only examines first 32 bytes of password, but password length determines final password
     - finding values `\xef\0\0\0' involves going through permutations of password[0..3]
         - manipulated on step 4, 8, 12
-        - because of right shift in step 12, only single byte will contain data byte, followed by 3 NULL bytes 
     - finding values \x6f\0\0\0 involves going through permutations of password[16..19]
-        - because of right shift in step 12, only single byte will contain data byte, followed by 3 NULL bytes 
         - first loop:
-            - manipulated on step 5, 9, 12
+            - manipulated on step 5 (also 2 effects), 9, 12
         - second loop - since we are calling function with password + 16, password[16..19] is password[0..3] in second call
             - manipulated on step 4, 8, 12
     - since in step 5 we are permutating value password[16..19] with password[32..35] (which is [36..39] because of swapping)
